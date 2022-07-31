@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>the game</title>
+        <link rel="stylesheet" href="game.css"/>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="title">Welcome To Reaction Tester</h1>
+            <span id="content">please enter the following details after<br> clicking Start </span>
+            <br>
+            <br>
+            
+
+            <button id="submit">Start</button>
+            <p class="output">your reactionTime:<span id="time"></span></p>
+            <p class="final" id="avg">your average reaction Time:<span id="avgtime"></span></p>
+            
+            <br><br>
+            <div id="box"></div>
+            <div id="hint"><span id="break">Hint!</span><br>You will be getting squares and circles that you have to click and We will calculate <br>your avg reaction time </div>
+        </div>
+
+
+        <script>
+            
+            var makingTime; var clickedTime; var reactionTime; 
+            var boxes=-1;
+            var limit = 0;
+            var array=Array();
+            var sum=0;
+
+             //random color generator
+            function randomColor(){
+                var color='0123456789ABCDEF';
+                var randomColor='#'
+                for(var i=0; i<6; i++){
+                 randomColor+=color[Math.floor(Math.random()*color.length)]
+                 }
+            return randomColor;
+            }
+
+
+            function makeBox(){
+            setTimeout(function() {
+                var time=Math.random()*5000
+                if (Math.random()>0.5) {
+                    document.getElementById("box").style.borderRadius="75px";
+                }
+                else {
+                    document.getElementById("box").style.borderRadius="0";                
+                }
+                var top=Math.random()*250
+                var left=Math.random()*900
+                document.getElementById("box").style.top=top+'px';
+                document.getElementById("box").style.left=left+'px';
+                document.getElementById("box").style.backgroundColor=randomColor();
+                
+                document.getElementById("box").style.display="block";
+                makingTime=Date.now();
+                boxes+=1;
+                if(boxes==limit){
+                    document.getElementById("box").style.display="none";
+                    for (let i = 0; i < array.length; i++) {
+                        sum += array[i];
+                    }
+                    // document.getElementById("final").style.display="block";
+                    document.getElementById("avgtime").innerHTML=sum/array.length;
+                    // document.getElementById("besttime").innerHTML=Math.max(array);
+
+
+
+
+                
+
+                    
+
+                }
+                
+                
+                
+            },Math.random()*5000);
+         }
+
+
+
+
+
+            document.getElementById("submit").onclick = function() {
+                document.getElementById("hint").innerHTML =null;
+                document.getElementById("hint").style.border='none';
+
+                alert('to start game click OK')
+                 limit=prompt('enter the frequency:')
+                makeBox();
+                
+                
+            }
+            document.getElementById("box").onclick = function() {
+                document.getElementById("box").style.display="none";
+                clickedTime=Date.now();
+                reactionTime=(clickedTime-makingTime)/1000
+                
+                document.getElementById("time").innerHTML=reactionTime;
+                array.push(reactionTime);
+                
+                makeBox();
+
+                
+                
+            }
+
+            
+
+
+
+
+
+
+
+
+        </script>
+    </body>
+</html>
